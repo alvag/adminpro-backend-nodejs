@@ -19,22 +19,22 @@ var loginController = require("../controllers/LoginController");
 api.post("/login", loginController.login);
 
 /* Usuarios */
-api.get("/usuario", [auth.isAuth], usuarioController.get);
-api.get("/usuario/:id", [auth.isAuth], usuarioController.get);
+api.get("/usuario", usuarioController.get);
+api.get("/usuario/:id", usuarioController.get);
 api.post("/usuario", [auth.isAuth], usuarioController.create);
 api.put("/usuario/:id", [auth.isAuth], usuarioController.update);
 api.delete("/usuario/:id", [auth.isAuth], usuarioController.del);
 
 /* Hospitales */
-api.get("/hospital", [auth.isAuth], hospitalController.get);
-api.get("/hospital/:id", [auth.isAuth], hospitalController.get);
+api.get("/hospital", hospitalController.get);
+api.get("/hospital/:id", hospitalController.get);
 api.post("/hospital", [auth.isAuth], hospitalController.create);
 api.put("/hospital/:id", [auth.isAuth], hospitalController.update);
 api.delete("/hospital/:id", [auth.isAuth], hospitalController.del);
 
 /* Médicos */
-api.get("/medico", [auth.isAuth], medicoController.get);
-api.get("/medico/:id", [auth.isAuth], medicoController.get);
+api.get("/medico", medicoController.get);
+api.get("/medico/:id", medicoController.get);
 api.post("/medico", [auth.isAuth], medicoController.create);
 api.put("/medico/:id", [auth.isAuth], medicoController.update);
 api.delete("/medico/:id", [auth.isAuth], medicoController.del);

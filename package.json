@@ -1,0 +1,29 @@
+{
+  "name": "adminpro-backend-nodejs",
+  "version": "1.0.0",
+  "description": "Servidor backend de AdminPro",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alvag/adminpro-backend-nodejs.git"
+  },
+  "keywords": [],
+  "author": "Max Alva Garcia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alvag/adminpro-backend-nodejs/issues"
+  },
+  "homepage": "https://github.com/alvag/adminpro-backend-nodejs#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^4.13.9"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.5",
+    "nodemon": "^1.14.11"
+  }
+}

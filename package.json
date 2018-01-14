@@ -4,7 +4,7 @@
   "description": "Servidor backend de AdminPro",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/alvag/adminpro-backend-nodejs#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "mongoose": "^4.13.9"
   },

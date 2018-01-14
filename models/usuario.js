@@ -19,8 +19,7 @@ var UsuarioSchema = new Schema({
     },
     password: {
         type: String,
-        required: [true, "La contraseña es requerida"],
-        select: false
+        required: [true, "La contraseña es requerida"]
     },
     img: {
         type: String,

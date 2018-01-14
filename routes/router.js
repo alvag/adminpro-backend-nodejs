@@ -5,6 +5,7 @@ var auth = require("../middlewares/auth");
 
 var usuarioController = require("../controllers/UsuarioController");
 var hospitalController = require("../controllers/HospitalController");
+var medicoController = require("../controllers/MedicoController");
 var loginController = require("../controllers/LoginController");
 
 /* api.get("/", (req, res, next) => {
@@ -30,5 +31,12 @@ api.get("/hospital/:id", [auth.isAuth], hospitalController.get);
 api.post("/hospital", [auth.isAuth], hospitalController.create);
 api.put("/hospital/:id", [auth.isAuth], hospitalController.update);
 api.delete("/hospital/:id", [auth.isAuth], hospitalController.del);
+
+/* Médicos */
+api.get("/medico", [auth.isAuth], medicoController.get);
+api.get("/medico/:id", [auth.isAuth], medicoController.get);
+api.post("/medico", [auth.isAuth], medicoController.create);
+api.put("/medico/:id", [auth.isAuth], medicoController.update);
+api.delete("/medico/:id", [auth.isAuth], medicoController.del);
 
 module.exports = api;

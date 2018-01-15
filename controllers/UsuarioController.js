@@ -1,5 +1,6 @@
 var bcrypt = require("bcryptjs");
 var Usuario = require("../models/usuario");
+var paginacion = require("../helpers/paginacion_helper");
 
 function get(req, res) {
     var id = req.params.id;
@@ -24,17 +25,55 @@ function get(req, res) {
             res.status(201).json({ error: false, usuario });
         });
     } else {
-        Usuario.find({}, "nombre email img role").exec((err, usuarios) => {
-            if (err) {
-                return res.status(500).json({
-                    error: true,
-                    mensaje: "Error cargando usuarios",
-                    errors: err
-                });
-            }
+        var pag = Number(req.query.pag) || 1;
+        var cant = Number(req.query.cant) || 10;
 
-            res.status(200).json({ error: false, usuarios });
-        });
+        Usuario.find({}, "nombre email img role")
+            .skip((pag - 1) * cant)
+            .limit(cant)
+            .exec((err, usuarios) => {
+                if (err) {
+                    return res.status(500).json({
+                        error: true,
+                        mensaje: "Error cargando usuarios",
+                        errors: err
+                    });
+                }
+
+                Usuario.count({}, (err, conteo) => {
+                    res.status(200).json({
+                        error: false,
+                        usuarios,
+                        paginacion: paginacion.paginar(req.route.path, conteo, pag, cant)
+                    });
+                });
+            });
+
+        /* Usuario.paginate({}, { page: 1, limit: 3 }).then(response => {
+                                                                                                                                                                                                                                                                        console.log(response);
+                                                                                                                                                                                                                                                                    }); */
+
+        /* 
+                                                                                                                                                                                                                                                            var pag = req.query.pag || 1;
+                                                                                                                                                                                                                                                            var cant = req.query.cant || 10;
+
+                                                                                                                                                                                                                                                            Usuario.find({}, "nombre email img role").paginate(
+                                                                                                                                                                                                                                                                pag,
+                                                                                                                                                                                                                                                                cant,
+                                                                                                                                                                                                                                                                (err, usuarios, total) => {
+                                                                                                                                                                                                                                                                    console.log(total);
+                                                                                                                                                                                                                                                                    if (err) {
+                                                                                                                                                                                                                                                                        return res.status(500).json({
+                                                                                                                                                                                                                                                                            error: true,
+                                                                                                                                                                                                                                                                            mensaje: "Error cargando usuarios",
+                                                                                                                                                                                                                                                                            errors: err
+                                                                                                                                                                                                                                                                        });
+                                                                                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                                                                                    res.status(200).json({ error: false, usuarios, total });
+                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                            );
+                                                                                                                                                                                                                                                             */
     }
 }
 

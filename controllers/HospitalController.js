@@ -1,4 +1,5 @@
 var Hospital = require("../models/hospital");
+var paginacion = require("../helpers/paginacion_helper");
 
 function get(req, res) {
     var id = req.params.id;
@@ -25,8 +26,13 @@ function get(req, res) {
                 res.status(201).json({ error: false, hospital });
             });
     } else {
+        var pag = Number(req.query.pag) || 1;
+        var cant = Number(req.query.cant) || 10;
+
         Hospital.find({})
             .populate("usuario", "nombre email img role")
+            .skip((pag - 1) * cant)
+            .limit(cant)
             .exec((err, hospitales) => {
                 if (err) {
                     return res.status(500).json({
@@ -36,7 +42,13 @@ function get(req, res) {
                     });
                 }
 
-                res.status(200).json({ error: false, hospitales });
+                Hospital.count({}, (err, conteo) => {
+                    res.status(200).json({
+                        error: false,
+                        hospitales,
+                        paginacion: paginacion.paginar(req.route.path, conteo, pag, cant)
+                    });
+                });
             });
     }
 }

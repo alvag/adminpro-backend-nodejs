@@ -24,7 +24,7 @@ function get(req, res) {
                     });
                 }
 
-                res.status(201).json({ error: false, medico });
+                res.status(200).json({ error: false, medico });
             });
     } else {
         var pag = Number(req.query.pag) || 1;

@@ -56,9 +56,3 @@ typings/
 
 # dotenv environment variables file
 .env
-
-# Uploads
-/uploads/hospitales/*
-/uploads/medicos/*
-/uploads/usuarios/*
-!*.gitkeep

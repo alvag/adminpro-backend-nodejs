@@ -8,6 +8,8 @@ var hospitalController = require("../controllers/HospitalController");
 var medicoController = require("../controllers/MedicoController");
 var busquedaController = require("../controllers/BusquedaController");
 var loginController = require("../controllers/LoginController");
+var uploadController = require("../controllers/UploadController");
+var imagenesController = require("../controllers/ImagenesController");
 
 /* api.get("/", (req, res, next) => {
     res.status(200).json({
@@ -43,5 +45,11 @@ api.delete("/medico/:id", [auth.isAuth], medicoController.del);
 /* Búsqueda */
 api.get("/busqueda/todo/:q", busquedaController.todo);
 api.get("/busqueda/:coleccion/:q", busquedaController.coleccion);
+
+/* Upload */
+api.put("/upload/:tipo/:id", [auth.isAuth], uploadController.upload);
+
+/* Obtener imagen */
+api.get("/img/:tipo/:img", imagenesController.get);
 
 module.exports = api;

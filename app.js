@@ -1,7 +1,8 @@
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
-const appRoutes = require("./routes/router");
+var express = require("express");
+var app = express();
+var bodyParser = require("body-parser");
+var appRoutes = require("./routes/router");
+var fileUpload = require("express-fileupload");
 
 app.use(
     bodyParser.urlencoded({
@@ -21,6 +22,8 @@ app.use(bodyParser.json());
     res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE");
     next();
 }); */
+
+app.use(fileUpload());
 
 app.use("/api", appRoutes);
 

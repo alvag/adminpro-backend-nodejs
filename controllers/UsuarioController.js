@@ -48,32 +48,6 @@ function get(req, res) {
                     });
                 });
             });
-
-        /* Usuario.paginate({}, { page: 1, limit: 3 }).then(response => {
-                                                                                                                                                                                                                                                                        console.log(response);
-                                                                                                                                                                                                                                                                    }); */
-
-        /* 
-                                                                                                                                                                                                                                                            var pag = req.query.pag || 1;
-                                                                                                                                                                                                                                                            var cant = req.query.cant || 10;
-
-                                                                                                                                                                                                                                                            Usuario.find({}, "nombre email img role").paginate(
-                                                                                                                                                                                                                                                                pag,
-                                                                                                                                                                                                                                                                cant,
-                                                                                                                                                                                                                                                                (err, usuarios, total) => {
-                                                                                                                                                                                                                                                                    console.log(total);
-                                                                                                                                                                                                                                                                    if (err) {
-                                                                                                                                                                                                                                                                        return res.status(500).json({
-                                                                                                                                                                                                                                                                            error: true,
-                                                                                                                                                                                                                                                                            mensaje: "Error cargando usuarios",
-                                                                                                                                                                                                                                                                            errors: err
-                                                                                                                                                                                                                                                                        });
-                                                                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                                                                    res.status(200).json({ error: false, usuarios, total });
-                                                                                                                                                                                                                                                                }
-                                                                                                                                                                                                                                                            );
-                                                                                                                                                                                                                                                             */
     }
 }
 

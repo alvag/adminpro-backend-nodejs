@@ -59,6 +59,6 @@ typings/
 
 # Uploads
 
-/uploads/hospitales/
-/uploads/medicos/
-/uploads/usuarios/
+/uploads/hospitales/*.*
+/uploads/medicos/*.*
+/uploads/usuarios/*.*

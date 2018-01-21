@@ -78,7 +78,7 @@ function buscarMedicos(regEx) {
 
 function buscarUsuarios(regEx) {
     return new Promise((resolve, reject) => {
-        Usuario.find({}, "nombre img email role")
+        Usuario.find({}, "nombre img email role google")
             .or([{ nombre: regEx }, { email: regEx }])
             .exec((err, usuarios) => {
                 if (err) {

@@ -20,6 +20,7 @@ var imagenesController = require("../controllers/ImagenesController");
 
 /* Login */
 api.post("/login", loginController.login);
+api.post("/login/google", loginController.google);
 
 /* Usuarios */
 api.get("/usuario", usuarioController.get);

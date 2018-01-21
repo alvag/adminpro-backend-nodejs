@@ -5,7 +5,7 @@ var paginacion = require("../helpers/paginacion_helper");
 function get(req, res) {
     var id = req.params.id;
     if (id) {
-        Usuario.findById(id, "nombre email img role", (err, usuario) => {
+        Usuario.findById(id, "nombre email img role google", (err, usuario) => {
             if (err) {
                 return res.status(500).json({
                     error: true,
@@ -28,7 +28,7 @@ function get(req, res) {
         var pag = Number(req.query.pag) || 1;
         var cant = Number(req.query.cant) || 10;
 
-        Usuario.find({}, "nombre email img role")
+        Usuario.find({}, "nombre email img role google")
             .skip((pag - 1) * cant)
             .limit(cant)
             .exec((err, usuarios) => {

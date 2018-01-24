@@ -70,6 +70,8 @@ function create(req, res) {
             });
         }
 
+        usuario.password = undefined;
+
         res.status(201).json({ error: false, usuario });
     });
 }
@@ -108,6 +110,8 @@ function update(req, res) {
                 });
             }
 
+            usuarioGuardado.password = undefined;
+
             res.status(200).json({ error: false, usuario: usuarioGuardado });
         });
     });
@@ -132,6 +136,8 @@ function del(req, res) {
                 errors: { message: "El usuario no existe." }
             });
         }
+
+        usuario.password = undefined;
 
         res.status(200).json({ error: false, usuario });
     });

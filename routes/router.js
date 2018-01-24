@@ -25,7 +25,7 @@ api.post("/login/google", loginController.google);
 /* Usuarios */
 api.get("/usuario", usuarioController.get);
 api.get("/usuario/:id", usuarioController.get);
-api.post("/usuario", [auth.isAuth], usuarioController.create);
+api.post("/usuario", usuarioController.create);
 api.put("/usuario/:id", [auth.isAuth], usuarioController.update);
 api.delete("/usuario/:id", [auth.isAuth], usuarioController.del);
 

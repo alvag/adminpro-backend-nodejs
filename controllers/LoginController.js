@@ -38,7 +38,7 @@ function login(req, res) {
 }
 
 function google(req, res) {
-    var token = req.headers.token;
+    var token = req.body.token;
 
     var client = new GoogleAuth.OAuth2Client(
         config.GOOGLE_CLIENT_ID,

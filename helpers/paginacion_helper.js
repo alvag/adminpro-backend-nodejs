@@ -14,7 +14,7 @@ function paginar(path, conteo, pag, cant) {
         previousPage = config.url + path + "?pag=" + _pag + "&cant=" + cant;
     }
 
-    return { total: conteo, paginas, nextPage, previousPage };
+    return { total: conteo, paginas, currentPage: pag, nextPage, previousPage };
 }
 
 module.exports = {

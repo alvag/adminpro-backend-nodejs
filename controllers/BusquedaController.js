@@ -1,6 +1,7 @@
 var Hospital = require("../models/hospital");
 var Medico = require("../models/medico");
 var Usuario = require("../models/usuario");
+var paginacion = require("../helpers/paginacion_helper");
 
 function todo(req, res) {
     var q = req.params.q;
@@ -25,11 +26,14 @@ function coleccion(req, res) {
     var coleccion = req.params.coleccion;
     var regEx = new RegExp(q, "i");
 
+    var pag = Number(req.query.pag) || 1;
+    var cant = Number(req.query.cant) || 10;
+
     var promesa;
 
     switch (coleccion) {
         case "usuarios":
-            promesa = buscarUsuarios(regEx);
+            promesa = buscarUsuarios(regEx, pag, cant);
             break;
         case "medicos":
             promesa = buscarMedicos(regEx);
@@ -47,12 +51,18 @@ function coleccion(req, res) {
             });
     }
 
+    var path = "/busqueda/" + coleccion + "/" + q;
+
     promesa.then(data => {
-        res.status(200).json({ error: false, [coleccion]: data });
+        res.status(200).json({
+            error: false,
+            [coleccion]: data.data,
+            paginacion: paginacion.paginar(path, data.conteo, pag, cant)
+        });
     });
 }
 
-function buscarHospitales(regEx) {
+function buscarHospitales(regEx, pag, cant) {
     return new Promise((resolve, reject) => {
         Hospital.find({ nombre: regEx }, (err, hospitales) => {
             if (err) {
@@ -64,7 +74,7 @@ function buscarHospitales(regEx) {
     });
 }
 
-function buscarMedicos(regEx) {
+function buscarMedicos(regEx, pag, cant) {
     return new Promise((resolve, reject) => {
         Medico.find({ nombre: regEx }, (err, medicos) => {
             if (err) {
@@ -76,15 +86,29 @@ function buscarMedicos(regEx) {
     });
 }
 
-function buscarUsuarios(regEx) {
+function buscarUsuarios(regEx, pag, cant) {
     return new Promise((resolve, reject) => {
         Usuario.find({}, "nombre img email role google")
             .or([{ nombre: regEx }, { email: regEx }])
+            .skip((pag - 1) * cant)
+            .limit(cant)
             .exec((err, usuarios) => {
                 if (err) {
                     reject();
                 } else {
-                    resolve(usuarios);
+                    Usuario.count({})
+                        .or([{ nombre: regEx }, { email: regEx }])
+                        .exec((err, conteo) => {
+                            if (err) {
+                                reject();
+                            } else {
+                                var data = {
+                                    data: usuarios,
+                                    conteo
+                                };
+                                resolve(data);
+                            }
+                        });
                 }
             });
     });

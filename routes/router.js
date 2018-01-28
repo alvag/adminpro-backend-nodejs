@@ -19,8 +19,8 @@ var imagenesController = require("../controllers/ImagenesController");
 }); */
 
 /* Login */
-api.post("/login", loginController.login);
-api.post("/login/google", loginController.google);
+api.post("/signin", loginController.login);
+api.post("/signin/google", loginController.google);
 
 /* Usuarios */
 api.get("/usuario", usuarioController.get);

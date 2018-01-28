@@ -1,5 +1,6 @@
 var express = require("express");
 var app = express();
+var path = require("path");
 var bodyParser = require("body-parser");
 var appRoutes = require("./routes/router");
 var fileUpload = require("express-fileupload");
@@ -26,5 +27,10 @@ app.use((req, res, next) => {
 app.use(fileUpload());
 
 app.use("/api", appRoutes);
+
+app.use("/", express.static("dist", { redirect: false }));
+app.get("*", function(req, res, next) {
+    res.sendFile(path.resolve("dist/index.html"));
+});
 
 module.exports = app;

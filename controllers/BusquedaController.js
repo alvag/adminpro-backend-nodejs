@@ -39,7 +39,7 @@ function coleccion(req, res) {
             promesa = buscarMedicos(regEx);
             break;
         case "hospitales":
-            promesa = buscarHospitales(regEx);
+            promesa = buscarHospitales(regEx, pag, cant);
             break;
         default:
             return res.status(400).json({
@@ -62,7 +62,7 @@ function coleccion(req, res) {
     });
 }
 
-function buscarHospitales(regEx, pag, cant) {
+/* function buscarHospitales(regEx, pag, cant) {
     return new Promise((resolve, reject) => {
         Hospital.find({ nombre: regEx }, (err, hospitales) => {
             if (err) {
@@ -71,6 +71,28 @@ function buscarHospitales(regEx, pag, cant) {
                 resolve(hospitales);
             }
         });
+    });
+} */
+
+function buscarHospitales(regEx, pag, cant) {
+    return new Promise((resolve, reject) => {
+        Hospital.find({ nombre: regEx })
+            .skip((pag - 1) * cant)
+            .limit(cant)
+            .exec((err, hospitales) => {
+                if (err) {
+                    reject();
+                } else {
+                    Hospital.count({ nombre: regEx }).exec((err, conteo) => {
+                        if (err) {
+                            reject();
+                        } else {
+                            var data = { data: hospitales, conteo };
+                            resolve(data);
+                        }
+                    });
+                }
+            });
     });
 }
 

@@ -62,18 +62,6 @@ function coleccion(req, res) {
     });
 }
 
-/* function buscarHospitales(regEx, pag, cant) {
-    return new Promise((resolve, reject) => {
-        Hospital.find({ nombre: regEx }, (err, hospitales) => {
-            if (err) {
-                reject();
-            } else {
-                resolve(hospitales);
-            }
-        });
-    });
-} */
-
 function buscarHospitales(regEx, pag, cant) {
     return new Promise((resolve, reject) => {
         Hospital.find({ nombre: regEx })

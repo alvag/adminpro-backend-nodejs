@@ -36,7 +36,7 @@ function coleccion(req, res) {
             promesa = buscarUsuarios(regEx, pag, cant);
             break;
         case "medicos":
-            promesa = buscarMedicos(regEx);
+            promesa = buscarMedicos(regEx, pag, cant);
             break;
         case "hospitales":
             promesa = buscarHospitales(regEx, pag, cant);
@@ -86,13 +86,23 @@ function buscarHospitales(regEx, pag, cant) {
 
 function buscarMedicos(regEx, pag, cant) {
     return new Promise((resolve, reject) => {
-        Medico.find({ nombre: regEx }, (err, medicos) => {
-            if (err) {
-                reject();
-            } else {
-                resolve(medicos);
-            }
-        });
+        Medico.find({ nombre: regEx })
+            .skip((pag - 1) * cant)
+            .limit(cant)
+            .exec((err, medicos) => {
+                if (err) {
+                    reject();
+                } else {
+                    Medico.count({ nombre: regEx }).exec((err, conteo) => {
+                        if (err) {
+                            reject();
+                        } else {
+                            var data = { data: medicos, conteo };
+                            resolve(data);
+                        }
+                    });
+                }
+            });
     });
 }
 

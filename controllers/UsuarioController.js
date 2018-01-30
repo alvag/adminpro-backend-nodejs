@@ -26,7 +26,7 @@ function get(req, res) {
         });
     } else {
         var pag = Number(req.query.pag) || 1;
-        var cant = Number(req.query.cant) || 10;
+        var cant = Number(req.query.cant) || 999;
 
         Usuario.find({}, "nombre email img role google")
             .skip((pag - 1) * cant)

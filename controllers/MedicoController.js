@@ -28,7 +28,7 @@ function get(req, res) {
             });
     } else {
         var pag = Number(req.query.pag) || 1;
-        var cant = Number(req.query.cant) || 10;
+        var cant = Number(req.query.cant) || 999;
 
         Medico.find({})
             .skip((pag - 1) * cant)

@@ -26,8 +26,11 @@ api.post("/login/google", loginController.google);
 api.get("/usuario", usuarioController.get);
 api.get("/usuario/:id", usuarioController.get);
 api.post("/usuario", usuarioController.create);
-api.put("/usuario/:id", [auth.isAuth], usuarioController.update);
-api.delete("/usuario/:id", [auth.isAuth], usuarioController.del);
+api.put(
+    "/usuario/:id", [auth.isAuth, auth.isAdminOrSelf],
+    usuarioController.update
+);
+api.delete("/usuario/:id", [auth.isAuth, auth.isAdmin], usuarioController.del);
 
 /* Hospitales */
 api.get("/hospital", hospitalController.get);

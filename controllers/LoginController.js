@@ -33,7 +33,9 @@ function login(req, res) {
 
         var token = jwt.createToken(usuario);
 
-        res.status(200).json({ error: false, usuario, token });
+        res
+            .status(200)
+            .json({ error: false, usuario, token, menu: obtenerMenu(usuario.role) });
     });
 }
 
@@ -85,7 +87,8 @@ function google(req, res) {
                         res.status(200).json({
                             error: false,
                             usuario,
-                            token
+                            token,
+                            menu: obtenerMenu(usuario.role)
                         });
                     }
                 } else {
@@ -110,13 +113,47 @@ function google(req, res) {
                         res.status(201).json({
                             error: false,
                             usuario: usuarioGuardado,
-                            token
+                            token,
+                            menu: obtenerMenu(usuarioGuardado.role)
                         });
                     });
                 }
             });
         }
     );
+}
+
+function obtenerMenu(role) {
+    var menu = [{
+            titulo: "Principal",
+            icono: "mdi mdi-gauge",
+            submenu: [
+                { titulo: "Dashboard", url: "/dashboard" },
+                { titulo: "Progressbar", url: "/progress" },
+                { titulo: "Gráficas", url: "/graficas1" },
+                { titulo: "Promesas", url: "/promesas" },
+                { titulo: "RXJS", url: "/rxjs" }
+            ]
+        },
+        {
+            titulo: "Mantenimientos",
+            icono: "md mdi-folder-lock-open",
+            submenu: [
+                { titulo: "Usuarios", url: "/usuarios" },
+                { titulo: "Hospitales", url: "/hospitales" },
+                { titulo: "Médicos", url: "/medicos" }
+            ]
+        }
+    ];
+
+    /* if (role === "ADMIN_ROLE") {
+          menu[1].submenu.unshift({
+              titulo: "Usuarios",
+              url: "/usuarios"
+          });
+      } */
+
+    return menu;
 }
 
 module.exports = {

@@ -24,4 +24,33 @@ function isAuth(req, res, next) {
         });
 }
 
-module.exports = { isAuth };
+function isAdmin(req, res, next) {
+    var usuario = req.user;
+
+    if (usuario.role === "ADMIN_ROLE") {
+        next();
+    } else {
+        return res.status(403).json({
+            error: true,
+            mensaje: "No tienes autorización.",
+            errors: { message: "No tienes autorización." }
+        });
+    }
+}
+
+function isAdminOrSelf(req, res, next) {
+    var usuario = req.user;
+    var id = req.params.id;
+
+    if (usuario.role === "ADMIN_ROLE" || usuario.sub === id) {
+        next();
+    } else {
+        return res.status(403).json({
+            error: true,
+            mensaje: "No tienes autorización.",
+            errors: { message: "No tienes autorización." }
+        });
+    }
+}
+
+module.exports = { isAuth, isAdmin, isAdminOrSelf };

@@ -21,6 +21,7 @@ var imagenesController = require("../controllers/ImagenesController");
 /* Login */
 api.post("/login", loginController.login);
 api.post("/login/google", loginController.google);
+api.get("/login/refresh-token", [auth.isAuth], loginController.refreshToken);
 
 /* Usuarios */
 api.get("/usuario", usuarioController.get);

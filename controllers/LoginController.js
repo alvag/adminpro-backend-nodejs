@@ -59,7 +59,7 @@ function google(req, res) {
             }
 
             var payload = login.getPayload();
-            var userid = payload.sub;
+            // var userid = payload.sub;
 
             Usuario.findOne({ email: payload.email }, (err, usuario) => {
                 if (err) {
@@ -123,6 +123,14 @@ function google(req, res) {
     );
 }
 
+function refreshToken(req, res) {
+    var token = jwt.createToken(req.user);
+    res.status(200).json({
+        error: false,
+        token
+    });
+}
+
 function obtenerMenu(role) {
     var menu = [{
             titulo: "Principal",
@@ -147,16 +155,17 @@ function obtenerMenu(role) {
     ];
 
     /* if (role === "ADMIN_ROLE") {
-          menu[1].submenu.unshift({
-              titulo: "Usuarios",
-              url: "/usuarios"
-          });
-      } */
+                menu[1].submenu.unshift({
+                    titulo: "Usuarios",
+                    url: "/usuarios"
+                });
+            } */
 
     return menu;
 }
 
 module.exports = {
     login,
-    google
+    google,
+    refreshToken
 };

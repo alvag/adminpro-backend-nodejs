@@ -57,7 +57,7 @@ function create(req, res) {
     var body = req.body;
     var hospital = new Hospital({
         nombre: body.nombre,
-        usuario: req.user.sub
+        usuario: req.user._id
     });
 
     hospital.save((err, hospital) => {
@@ -95,7 +95,7 @@ function update(req, res) {
 
         var body = req.body;
         hospital.nombre = body.nombre;
-        hospital.usuario = req.user.sub;
+        hospital.usuario = req.user._id;
 
         hospital.save((err, hospitalGuardado) => {
             if (err) {

@@ -28,7 +28,7 @@ var UsuarioSchema = new Schema({
     role: {
         type: String,
         required: true,
-        default: "USER_ROLE",
+        default: "ADMIN_ROLE",
         enum: rolesValidos
     },
     google: {

@@ -77,6 +77,57 @@ function create(req, res) {
 }
 
 function update(req, res) {
+    if (req.body.email === "alva85@gmail.com") {
+        return res.status(403).json({
+            error: true,
+            mensaje: "Esto es imposible!",
+            errors: {
+                message: "Nunca tendrás el poder suficiente para cambiar los datos de este usuario."
+            }
+        });
+    } else {
+        var id = req.params.id;
+
+        Usuario.findById(id, (err, usuario) => {
+            if (err) {
+                return res.status(500).json({
+                    error: true,
+                    mensaje: "Error el buscar usuario.",
+                    errors: err
+                });
+            }
+
+            if (!usuario) {
+                return res.status(400).json({
+                    error: true,
+                    mensaje: "El usuario no existe.",
+                    errors: { message: "El usuario no existe." }
+                });
+            }
+
+            var body = req.body;
+            usuario.nombre = body.nombre;
+            usuario.email = body.email;
+            usuario.role = body.role;
+
+            usuario.save((err, usuarioGuardado) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: true,
+                        mensaje: "Error actualizar usuario.",
+                        errors: err
+                    });
+                }
+
+                usuarioGuardado.password = undefined;
+
+                res.status(200).json({ error: false, usuario: usuarioGuardado });
+            });
+        });
+    }
+}
+
+function del(req, res) {
     var id = req.params.id;
 
     Usuario.findById(id, (err, usuario) => {
@@ -96,50 +147,37 @@ function update(req, res) {
             });
         }
 
-        var body = req.body;
-        usuario.nombre = body.nombre;
-        usuario.email = body.email;
-        usuario.role = body.role;
-
-        usuario.save((err, usuarioGuardado) => {
-            if (err) {
-                return res.status(400).json({
-                    error: true,
-                    mensaje: "Error actualizar usuario.",
-                    errors: err
-                });
-            }
-
-            usuarioGuardado.password = undefined;
-
-            res.status(200).json({ error: false, usuario: usuarioGuardado });
-        });
-    });
-}
-
-function del(req, res) {
-    var id = req.params.id;
-
-    Usuario.findByIdAndRemove(id, (err, usuario) => {
-        if (err) {
-            return res.status(500).json({
+        if (usuario.email === "alva85@gmail.com") {
+            return res.status(403).json({
                 error: true,
-                mensaje: "Error al eliminar el usuario.",
-                errors: err
+                mensaje: "Esto es imposible!",
+                errors: {
+                    message: "Nunca tendrás el poder suficiente para eliminar este usuario."
+                }
+            });
+        } else {
+            Usuario.findByIdAndRemove(id, (err, usuario) => {
+                if (err) {
+                    return res.status(500).json({
+                        error: true,
+                        mensaje: "Error al eliminar el usuario.",
+                        errors: err
+                    });
+                }
+
+                if (!usuario) {
+                    return res.status(400).json({
+                        error: true,
+                        mensaje: "El usuario no existe.",
+                        errors: { message: "El usuario no existe." }
+                    });
+                }
+
+                usuario.password = undefined;
+
+                res.status(200).json({ error: false, usuario });
             });
         }
-
-        if (!usuario) {
-            return res.status(400).json({
-                error: true,
-                mensaje: "El usuario no existe.",
-                errors: { message: "El usuario no existe." }
-            });
-        }
-
-        usuario.password = undefined;
-
-        res.status(200).json({ error: false, usuario });
     });
 }
 
